@@ -1,0 +1,99 @@
+<% include ../partials/header %>
+
+<form action="/user/new" method="GET">
+    <h3 class="title is-3">Usuarios</h3>
+    <div class="control">
+        <button  type="submit" class="button is-primary">Add new user</button>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>firstname</th>
+            <th>lastname</th>
+            <th>username</th>
+            <th>type</th>
+            <th>number</th>
+            <th>photo</th>
+            <th>active</th>
+            <th>Actions</th>
+        </tr>
+
+        <% for(var i=0; i < userList.length ; i++){%>
+<form action="/user/<%= userList[i].identification.numberId%>" method="POST" >
+        <tr>
+
+            <th>
+                <%= userList[i].name.firstname %>
+
+            </th>
+            <th>
+                <%= userList[i].name.lastname %>
+
+            </th>
+            <th>
+                <%= userList[i].username %>
+
+            </th>
+            <th>
+                <%= userList[i].identification.typeId %>
+
+            </th>
+            <th>
+                <%= userList[i].identification.numberId %>
+                <input type="hidden" name="numberIdAct" value= <%= userList[i].identification.numberId %>>
+            </th>
+
+
+
+            <th>
+                    <figure class="image is-64x64">
+                            <img 
+                            src=
+                            <%= userList[i].photo %>
+                            >
+                          </figure>
+              
+
+            </th>
+
+            <th>
+                <%= userList[i].active %>
+
+            </th>
+            <th>
+
+                <button  type="submit"  class="button ">
+
+                    <span class="icon has-text-info">
+                        <i class="fas fa-info-circle"></i>
+                    </span>
+
+                </button>
+                <button formaction="/user/<%=userList[i].identification.numberId%>/edit" method="POST"  class="button">
+                    <span class="icon has-text-success">
+                        <i class="fas fa-pencil-alt"></i>
+                    </span>
+
+                </button>
+                <button formaction="/user/<%=userList[i].identification.numberId%>?_method=DELETE" method="POST" type="submit"  class="button ">
+
+                    <span class="icon has-text-danger">
+                        <i class="fas fa-ban"></i>
+                    </span>
+                </button>
+            </th>
+        </tr>
+    </form>
+        <% } %>
+        
+
+    </thead>
+
+
+
+</table>
+
+<% include ../partials/footer %>

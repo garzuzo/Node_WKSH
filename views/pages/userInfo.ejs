@@ -1,0 +1,45 @@
+
+<%include ../partials/header %>
+
+
+<div class="card">
+        <div class="card-image">
+         
+        </div>
+        <div class="card-content">
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-128x128">
+                <img 
+                src=
+                <%= userAct.photo %>
+                >
+              </figure>
+            </div>
+            <div class="media-content">
+              <p class="title is-4">
+                  
+                    <%= userAct.name.firstname %> 
+                    <%= userAct.name.lastname %> 
+            </p>
+              <p class="subtitle is-6">
+                    <%= userAct.username %> 
+              
+            </p>
+              <p class="subtitle is-6">
+                    <%= userAct.identification.typeId %>:
+                    <%= userAct.identification.numberId %> 
+                </p>
+              <p class="subtitle is-6">Active:
+                    <%= userAct.active %> </p>
+            </div>
+          </div>
+    
+        </div>
+      </div>
+
+      <form action="/user" method="GET">
+
+        <button class="button">Exit</button>
+      </form>
+      <% include ../partials/footer %>

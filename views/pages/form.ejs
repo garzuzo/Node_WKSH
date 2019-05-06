@@ -1,0 +1,211 @@
+<% include ../partials/header %>
+
+<form action="/user" method="POST">
+  <div class="field is-horizontal">
+
+    <div class="field-label is-normal">
+      <label class="label">Name</label>
+    </div>
+    <div class="field-body">
+
+      <div class="field">
+
+        <div class="control">
+          <input name="firstnameAct" class="input" type="text" placeholder="Johnatan"
+          <% if (userAct[0].name.firstname) {%>
+         value=<%=userAct[0].name.firstname%>
+         <%}%>
+          required>
+        </div>
+      </div>
+
+      <div class="field">
+
+        <div class="control">
+          <input name="lastnameAct" class="input" type="text" placeholder="Garzon"
+          <% if (userAct[0].name.firstname) {%>
+            value=<%=userAct[0].name.lastname%>
+            <%}%>
+          required>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="field is-horizontal">
+
+    <div class="field-label is-normal">
+      <label class="label">Username</label>
+    </div>
+    <div class="field-body">
+
+      <div class="field">
+
+        <div class="control">
+          <input name="usernameAct" class="input" type="text" placeholder="Garzuzzo"  minlength="8"
+          <% if (userAct[0].name.firstname) {%>
+            value=<%=userAct[0].username%>
+            <%}%>
+          required>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      <label class="label">Identification</label>
+
+    </div>
+    <div class="field-body">
+      <p class="control">
+        <span class="select">
+          <select name="typeIdAct" >
+            <option 
+            <% if (userAct[0].identification.typeId=='CC') {%>
+              selected
+              <%}%>
+            >CC</option>
+            <option 
+            <% if (userAct[0].identification.typeId=='Passport') {%>
+              selected
+              <%}%>
+            >Passport</option>
+            <option
+            <% if (userAct[0].identification.typeId=='DNI') {%>
+              selected
+              <%}%>
+            >DNI</option>
+          </select>
+        </span>
+      </p>
+
+
+      <div class="field">
+        <div class="control">
+          <input name="numberIdAct" class="input" type="number" placeholder="131124656" 
+          <% if (userAct[0].name.firstname) {%>
+            value=<%=userAct[0].identification.numberId%>
+            <%}%>
+          required>
+ 
+        </div>
+      </div>
+
+
+
+
+    </div>
+  </div>
+
+
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      <label class="label">Password</label>
+    </div>
+    <div class="field-body">
+
+      <div class="field">
+
+        <div class="control">
+          <input name="passwordAct" class="input" type="password" placeholder=""
+          
+          <% if (!userAct[0].name.firstname) {%>
+            required
+            <%}%>
+          >
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      <label class="label">Photo</label>
+    </div>
+    <div class="field-body">
+
+      <div class="field">
+
+        <div class="control">
+          <input name="photoAct" class="input" type="text"
+            placeholder="https://avatars3.githubusercontent.com/u/26451522?s=460&v=4" 
+            
+            <% if (userAct[0].name.firstname) {%>
+              value=<%=userAct[0].photo%>
+              <%}%>
+            required>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="field is-horizontal">
+    <div class="field-label">
+      <label class="label">Active?</label>
+    </div>
+    <div class="field-body">
+      <div class="field is-narrow">
+        <div class="control" name="selectedRB">
+          <label class="radio">
+            <input type="radio" value="true" name="member"
+            <% if (!userAct[0].name.firstname) {%>
+              checked
+              <%}%>
+            
+            <% if (userAct[0].active) {%>
+              checked
+              <%}%>
+            >
+            Yes
+          </label>
+          <label class="radio">
+            <input type="radio" value="false" name="member"
+            
+            <% if (!userAct[0].active && userAct[0].name.firstname) {%>
+              checked
+              <%}%>
+            
+            >
+            No
+          </label>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="field is-horizontal">
+
+    <div class="field-label is-normal">
+    </div>
+    <div class="field-body">
+        <% if (!userAct[0].name.firstname) {%>
+      <div class="field">
+           <!--   <% if (userAct) {%>-->
+          <button class="button is-primary">Aceptar</button>
+         <!--   <%}else{%>-->
+          
+            <!--  <%}%>-->
+      </div>
+      <%}else{%>
+      <div class="field">
+          <button formaction="/user/<%=userAct[0].identification.numberId%>?_method=PUT" method="POST" class="button is-primary">Editar</button>
+      </div>
+      <%}%>
+    </div>
+  </div>
+   
+
+</form>
+
+<form action="/user" method="GET">
+
+  <button class="button">Exit</button>
+</form>
+
+<% include ../partials/footer %>
