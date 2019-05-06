@@ -53,9 +53,9 @@ app.get('/user', function (req, res) {
 
         }
 
+        res.render('pages/table', { userList: allUsers })   
     })
     // console.log(allUsers)
-    res.render('pages/table', { userList: allUsers })
 })
 var userTemp = [{
 
@@ -87,10 +87,10 @@ app.post('/user', function (req, res, next) {
     var username = req.body.usernameAct;
     var password = req.body.passwordAct;
     var photo = req.body.photoAct;
+    //radiobutton selected
     var active = req.body.member;
     var userExists = false;
 
-    console.log(active)
 
     var user = new User(
         {
@@ -106,8 +106,8 @@ app.post('/user', function (req, res, next) {
 
         })
 
-    console.log("user to add:" + user)
-    User.findOne({ "identification.numberId": numberId, "identification.typeId": typeId }, (err, u) => {
+    //console.log("user to add:" + user)
+    User.findOne({ "identification.numberId": numberId }, (err, u) => {
 
         if (u) {
             console.error("this user already exists on the db");
@@ -143,12 +143,12 @@ app.post('/user/:id', function (req, res) {
     User.findOne({ "identification.numberId": id }).exec(function (err, user) {
 
 
-        if (user) {
+        if (user[0]) {
             var userFinded = user;
 
             userById = userFinded;
 
-            console.log(userById);
+//console.log(userById);
             res.render('pages/userInfo', { userAct: userById })
         } else
             console.log("Didn't find the user")
@@ -166,10 +166,10 @@ app.post('/user/:id/edit', function (req, res) {
     console.log(id)
     User.find({ "identification.numberId": id }, (err, user) => {
 
-        if (user) {
+        if (user[0]) {
 
             var userById = user;
-            console.log("finded to edit" + userById)
+            //console.log("finded to edit" + userById)
             //userAct.name.firstname
             res.render('pages/form', { userAct: userById })
 
@@ -205,12 +205,13 @@ app.put('/user/:id', function (req, res) {
 
 
     //console.log("last id:"+password+" : "+numberIdWOchange)
+console.log("id1:"+numberId+"-id2:"+numberIdWOchange)
+    if (numberId != numberIdWOchange) {
 
-    if (numberId !== numberIdWOchange) {
+        User.find({ "identification.numberId":numberId}, (err, user) => {
 
-        User.find({ "identification.numberId": numberId, "identification.typeId": typeId }, (err, user) => {
-
-            if (user) {
+            if (user[0]) {
+                console.log(user)
                 console.log("An user with the same Id already exists")
                 res.redirect('/user')
             } else {
@@ -218,7 +219,7 @@ app.put('/user/:id', function (req, res) {
 
 
                 if (password) {
-                    console.log("finded to update pass:" + password)
+                   // console.log("finded to update pass:" + password)
                     User.updateOne({ "identification.numberId": numberIdWOchange }, {
 
                         $set: {
@@ -227,7 +228,7 @@ app.put('/user/:id', function (req, res) {
                     }, (err, user) => {
 
 
-                        if (user) {
+                        if (user[0]) {
                             console.log("finded to update pass")
 
                         } else {
@@ -251,7 +252,7 @@ app.put('/user/:id', function (req, res) {
                 }, (err, user) => {
 
 
-                    if (user) {
+                    if (user[0]) {
                         console.log("finded to update")
 
                         res.redirect("/user");
@@ -263,6 +264,54 @@ app.put('/user/:id', function (req, res) {
             }
         })
 
+    }else{
+
+
+        if (password) {
+        //    console.log("finded to update pass:" + password)
+            User.updateOne({ "identification.numberId": numberIdWOchange }, {
+
+                $set: {
+                    "password": password
+                }
+            }, (err, user) => {
+
+
+                if (user[0]) {
+                    console.log("finded to update pass")
+
+                } else {
+                    console.log("didn't finded to update pass")
+                }
+            })
+        }
+
+        User.updateOne({ "identification.numberId": numberIdWOchange }, {
+
+            $set: {
+                "name.firstname": firstn,
+                "name.lastname": lastn,
+                "identification.numberId": numberId,
+                "identification.typeId": typeId,
+                "username": username,
+                "photo": photo,
+                "active": active
+            }
+
+        }, (err, user) => {
+
+
+            if (user[0]) {
+                console.log("finded to update")
+
+                res.redirect("/user");
+            } else {
+                console.log("didn't finded to update")
+            }
+
+        })
+
+
     }
 })
 
@@ -270,11 +319,11 @@ app.put('/user/:id', function (req, res) {
 app.delete('/user/:id', function (req, res) {
 
     var id = req.body.numberIdAct;
-    console.log("value to delete:" + id)
+    //console.log("value to delete:" + id)
     //console.log(req.body.idAct)
     User.deleteOne({ "identification.numberId": id }, (err, any) => {
         if (err)
-            console.log("ups:" + err)
+            console.log("error:" + err)
         else {
 
             console.log("deleted successfully")
