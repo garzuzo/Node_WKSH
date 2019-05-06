@@ -143,7 +143,7 @@ app.post('/user/:id', function (req, res) {
     User.findOne({ "identification.numberId": id }).exec(function (err, user) {
 
 
-        if (user[0]) {
+        if (user) {
             var userFinded = user;
 
             userById = userFinded;
@@ -228,11 +228,11 @@ console.log("id1:"+numberId+"-id2:"+numberIdWOchange)
                     }, (err, user) => {
 
 
-                        if (user[0]) {
+                        if (user) {
                             console.log("finded to update pass")
 
                         } else {
-                            console.log("didn't finded to update pass")
+                            console.log("didn't find to update pass")
                         }
                     })
                 }
@@ -252,7 +252,7 @@ console.log("id1:"+numberId+"-id2:"+numberIdWOchange)
                 }, (err, user) => {
 
 
-                    if (user[0]) {
+                    if (user) {
                         console.log("finded to update")
 
                         res.redirect("/user");
@@ -277,7 +277,7 @@ console.log("id1:"+numberId+"-id2:"+numberIdWOchange)
             }, (err, user) => {
 
 
-                if (user[0]) {
+                if (user) {
                     console.log("finded to update pass")
 
                 } else {
@@ -301,7 +301,7 @@ console.log("id1:"+numberId+"-id2:"+numberIdWOchange)
         }, (err, user) => {
 
 
-            if (user[0]) {
+            if (user) {
                 console.log("finded to update")
 
                 res.redirect("/user");
